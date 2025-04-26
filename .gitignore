@@ -1,0 +1,28 @@
+.vs*
+bin/debug/*
+bin/Debug/net8.0*
+obj/debug/*
+obj/Debug/*
+obj/Release/*
+# Ignore .dll files
+bin/Debug/*.dll
+# Ignore .pdb files
+bin/Debug/*.pdb
+*.json
+/CleanArchitectureSystem.Application/bin/Debug/net8.0
+/CleanArchitectureSystem.Application/obj/Debug/net8.0/ref/CleanArchitectureSystem.Application.dll
+/CleanArchitectureSystem.Application/obj/Debug/net8.0/refint
+/CleanArchitectureSystem.Application/obj/Debug/net8.0
+/CleanArchitectureSystem.Domain/bin/Debug/net8.0
+/CleanArchitectureSystem.Infrastructure/bin/Debug/net8.0
+/CleanArchitectureSystem.Persistence/bin/Debug/net8.0
+/CleanArchitectureSystem.Domain/obj/Debug/net8.0/ref/CleanArchitectureSystem.Domain.dll
+/CleanArchitectureSystem.Domain/obj/Debug/net8.0/refint
+/CleanArchitectureSystem.Domain/obj/Debug/net8.0
+/CleanArchitectureSystem.Infrastructure/obj/Debug/net8.0
+/CleanArchitectureSystem.Persistence/obj/Debug/net8.0
+/CleanArchitectureSystem.WebApi/bin/Debug/net8.0
+/CleanArchitectureSystem.WebApi/obj/Debug/net8.0
+/CleanArchitectureSystem.WebApi/obj/Debug/net8.0/CleanArchitectureSystem.WebApi.AssemblyInfo.cs
+/CleanArchitectureSystem.WebApi/obj/Debug/net8.0/CleanArchitectureSystem.WebApi.AssemblyInfoInputs.cache
+/CleanArchitectureSystem.WebApi/obj/Debug/net8.0/CleanArchitectureSystem.WebApi.csproj.AssemblyReference.cache
