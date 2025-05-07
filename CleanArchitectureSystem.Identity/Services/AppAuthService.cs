@@ -118,5 +118,10 @@ namespace CleanArchitectureSystem.Identity.Services
                 throw new BadRequestException($"{str}");
             }
         }
+
+        public Task<CustomResultResponse> UpdateUserAccount(UpdateRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
