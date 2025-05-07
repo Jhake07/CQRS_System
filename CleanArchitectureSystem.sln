@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureSystem.Identity", "CleanArchitectureSystem.Identity\CleanArchitectureSystem.Identity.csproj", "{E3C941CB-2679-4D9A-B8DD-57E4C95D150C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{7A91459F-FE1B-4BE2-A617-C5CF427BC791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A91459F-FE1B-4BE2-A617-C5CF427BC791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A91459F-FE1B-4BE2-A617-C5CF427BC791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3C941CB-2679-4D9A-B8DD-57E4C95D150C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C941CB-2679-4D9A-B8DD-57E4C95D150C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C941CB-2679-4D9A-B8DD-57E4C95D150C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C941CB-2679-4D9A-B8DD-57E4C95D150C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{600C3E54-2D97-4AAC-847C-13BEEA895DF1} = {56358FCA-4F83-4DBE-B73A-5DD76CF4E764}
 		{3177A506-4C4C-477C-BFB1-8E14A55A73AD} = {56358FCA-4F83-4DBE-B73A-5DD76CF4E764}
 		{7A91459F-FE1B-4BE2-A617-C5CF427BC791} = {44A6F6AF-4FA1-4198-A71F-8E0C1C88D393}
+		{E3C941CB-2679-4D9A-B8DD-57E4C95D150C} = {56358FCA-4F83-4DBE-B73A-5DD76CF4E764}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4093DAA2-981A-4681-B90C-0E7020F07E40}

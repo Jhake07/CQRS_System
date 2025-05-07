@@ -4,6 +4,7 @@ using CleanArchitectureSystem.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitectureSystem.Persistence.Migrations
 {
     [DbContext(typeof(CleanArchDbContext))]
-    partial class CleanArchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250502025616_DropAppUserTable")]
+    partial class DropAppUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +29,7 @@ namespace CleanArchitectureSystem.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
@@ -73,6 +77,23 @@ namespace CleanArchitectureSystem.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrenceStamp = "tesdasdsada",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "test.gmail.com",
+                            FirstName = "Jake",
+                            IsActive = true,
+                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Umali",
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PasswordHash = "12345",
+                            SecurityStamp = "testtss",
+                            Username = "test"
+                        });
                 });
 
             modelBuilder.Entity("CleanArchitectureSystem.Domain.BatchSerial", b =>

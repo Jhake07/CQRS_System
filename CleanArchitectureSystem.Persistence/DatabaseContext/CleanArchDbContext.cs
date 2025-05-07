@@ -6,7 +6,7 @@ namespace CleanArchitectureSystem.Persistence.DatabaseContext
 {
     public class CleanArchDbContext(DbContextOptions<CleanArchDbContext> options) : DbContext(options)
     {
-        public DbSet<AppUser> AppUsers { get; set; }
+        //public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<BatchSerial> BatchSerials { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<MainSerial> MainSerials { get; set; }

@@ -18,7 +18,6 @@ namespace CleanArchitectureSystem.Persistence
             });
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IAppUserRepository, AppUserRepository>();
             services.AddScoped<IBatchSerialRepository, BatchSerialRepository>();
             services.AddScoped<IMainSerialRepository, MainSerialRepository>();
 

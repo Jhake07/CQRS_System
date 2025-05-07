@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,8 +14,8 @@ namespace CleanArchitectureSystem.Persistence.Migrations
                 table: "AppUsers",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "CreatedDate", "LastLogin", "ModifiedDate" },
-                values: new object[] { new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                columns: ["CreatedDate", "LastLogin", "ModifiedDate"],
+                values: [new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)]);
         }
 
         /// <inheritdoc />
@@ -26,8 +25,8 @@ namespace CleanArchitectureSystem.Persistence.Migrations
                 table: "AppUsers",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "CreatedDate", "LastLogin", "ModifiedDate" },
-                values: new object[] { new DateTime(2025, 4, 7, 22, 30, 48, 258, DateTimeKind.Local).AddTicks(8536), new DateTime(2025, 4, 7, 22, 30, 48, 259, DateTimeKind.Local).AddTicks(9278), new DateTime(2025, 4, 7, 22, 30, 48, 259, DateTimeKind.Local).AddTicks(8998) });
+                columns: ["CreatedDate", "LastLogin", "ModifiedDate"],
+                values: [new DateTime(2025, 4, 7, 22, 30, 48, 258, DateTimeKind.Local).AddTicks(8536), new DateTime(2025, 4, 7, 22, 30, 48, 259, DateTimeKind.Local).AddTicks(9278), new DateTime(2025, 4, 7, 22, 30, 48, 259, DateTimeKind.Local).AddTicks(8998)]);
         }
     }
 }
