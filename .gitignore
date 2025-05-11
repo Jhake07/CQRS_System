@@ -28,3 +28,9 @@ bin/Debug/*.pdb
 /CleanArchitectureSystem.WebApi/obj/Debug/net8.0/CleanArchitectureSystem.WebApi.csproj.AssemblyReference.cache
 /CleanArchitectureSystem.Identity/obj
 /CleanArchitectureSystem.WebApi/obj/project.nuget.cache
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Application.dll
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Application.pdb
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Domain.dll
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Domain.pdb
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Identity.dll
+/CleanArchitectureSystem.Identity/bin/Debug/net8.0/CleanArchitectureSystem.Identity.pdb

@@ -6,7 +6,7 @@ namespace CleanArchitectureSystem.Application.Contracts.Identity
     public interface IAppAuthServiceRepository
     {
         Task<AuthResponse> Login(AuthRequest request);
-        Task<RegistrationResponse> Register(RegistrationRequest request);
+        Task<IdentityResultResponse> Register(RegistrationRequest request);
         Task<CustomResultResponse> UpdateUserAccount(UpdateRequest request);
     }
 }

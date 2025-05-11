@@ -4,6 +4,7 @@ using CleanArchitectureSystem.Application.Models.Identity;
 using CleanArchitectureSystem.Application.Response;
 using CleanArchitectureSystem.Identity.EntityModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,11 +13,12 @@ using System.Text;
 
 namespace CleanArchitectureSystem.Identity.Services
 {
-    public class AppAuthService(UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager) : IAppAuthServiceRepository
+    public class AppAuthService(UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager, ILogger<AppAuthService> logger) : IAppAuthServiceRepository
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly SignInManager<AppUser> _signInManager = signInManager;
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+        private readonly ILogger<AppAuthService> _logger = logger; // Add logger
 
         public async Task<AuthResponse> Login(AuthRequest request)
         {
@@ -88,35 +90,47 @@ namespace CleanArchitectureSystem.Identity.Services
             return jwtSecurityToken;
         }
 
-        public async Task<RegistrationResponse> Register(RegistrationRequest request)
+        public async Task<IdentityResultResponse> Register(RegistrationRequest request)
         {
-            var user = new AppUser
-            {
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                UserName = request.UserName,
-                EmailConfirmed = true,
-                IsActive = true,
-            };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
-
-            if (result.Succeeded)
+            try
             {
-                await _userManager.AddToRoleAsync(user, "User");
-                return new RegistrationResponse() { Email = user.Email };
-            }
-            else
-            {
-                StringBuilder str = new();
-                foreach (var err in result.Errors)
+                var user = new AppUser
                 {
-                    str.AppendFormat("•{0}\n", err.Description);
+                    Email = request.Email,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    UserName = request.UserName,
+                    EmailConfirmed = true,
+                    IsActive = true
+                };
+
+                var result = await _userManager.CreateAsync(user, request.Password);
+
+                if (!result.Succeeded)
+                {
+                    var errorMessages = string.Join("\n", result.Errors.Select(err => $"• {err.Description}"));
+                    throw new BadRequestException(errorMessages);
                 }
 
-                throw new BadRequestException($"{str}");
+                await _userManager.AddToRoleAsync(user, "User");
+
+                return new IdentityResultResponse
+                {
+                    IsSuccess = true,
+                    Message = "User registered successfully",
+                    Id = user.Id,
+                    Email = user.Email
+                };
             }
+            catch (Exception ex)
+            {
+                // Log the error (example: using ILogger)
+                _logger.LogError(ex, "Error registering user");
+
+                throw new ApplicationException("An unexpected error occurred while registering the user. Please try again.");
+            }
+
         }
 
         public Task<CustomResultResponse> UpdateUserAccount(UpdateRequest request)
