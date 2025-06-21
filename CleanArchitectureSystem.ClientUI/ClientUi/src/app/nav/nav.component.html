@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Clean Architecture</a>
+
+    <form class="d-flex" role="form">
+      <input name="email" [(ngModel)]="model.email" class="form-control me-2" placeholder="Email">
+      <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">    
+      <button class="btn btn-primary me-2" type="button" (click)="accountlogin()">Login</button>
+      <button class="btn btn-secondary" type="button" (click)="registration()">Register</button>
+    </form>
+  </div>
+</nav>
+

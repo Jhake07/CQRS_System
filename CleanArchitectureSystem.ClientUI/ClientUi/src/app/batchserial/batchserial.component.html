@@ -1,0 +1,141 @@
+<div class="container mt-4">
+  <!-- Form Card -->
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-light fw-semibold">
+      <i class="fa fa-plus-circle me-2"></i>Batch Serial Entry
+    </div>
+    <div class="card-body">
+      <form [formGroup]="batchSerialForm" class="row g-3">
+        <div class="col-md-6">
+          <label for="contractNo" class="form-label">Contract No</label>
+          <input id="contractNo" formControlName="contractNo" type="text" class="form-control form-control-sm" />
+          @if (batchSerialForm.get('contractNo')?.touched && batchSerialForm.get('contractNo')?.invalid) {
+            <div class="text-danger small mt-1">Contract No is required.</div>
+          }
+        </div>
+        <div class="col-md-6">
+          <label for="customer" class="form-label">Customer</label>
+          <input id="customer" formControlName="customer" type="text" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="address" class="form-label">Address</label>
+          <input id="address" formControlName="address" type="text" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-6">
+          <label for="docNo" class="form-label">Doc No</label>
+          <input id="docNo" formControlName="docNo" type="text" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-4">
+          <label for="batchQty" class="form-label">Batch Qty</label>
+          <input id="batchQty" formControlName="batchQty" type="number" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-4">
+          <label for="orderQty" class="form-label">Order Qty</label>
+          <input id="orderQty" formControlName="orderQty" type="number" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-4">
+          <label for="deliverQty" class="form-label">Deliver Qty</label>
+          <input id="deliverQty" formControlName="deliverQty" type="number" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="status" class="form-label">Status</label>
+          <input id="status" formControlName="status" type="text" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-6">
+          <label for="serialPrefix" class="form-label">Serial Prefix</label>
+          <input id="serialPrefix" formControlName="serialPrefix" type="text" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="startSNo" class="form-label">Start Serial No</label>
+          <input id="startSNo" formControlName="startSNo" type="text" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-6">
+          <label for="endSNo" class="form-label">End Serial No</label>
+          <input id="endSNo" formControlName="endSNo" type="text" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-12">
+          <label for="itemModelCode" class="form-label">Item Model Code</label>
+          <input id="itemModelCode" formControlName="item_modelCode" type="text" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-12 text-end mt-3">
+          <button type="button" class="btn btn-primary btn-sm px-4" (click)="openConfirmation()" [disabled]="isSaving">
+            @if (isSaving) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...
+            } @else {
+              <i class="fa fa-save me-2"></i>Save
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="card mt-4 shadow-sm border-0">
+    <div class="card-header bg-light fw-semibold">
+      <i class="fa fa-table me-2"></i>Existing Records
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover align-middle table-sm mb-0 text-center">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 100px;">Actions</th>
+              <th>Contract No</th>
+              <th>Batch Qty</th>
+              <th>Order Qty</th>
+              <th>Deliver Qty</th>
+              <th>Status</th>
+              <th>Serial Prefix</th>
+              <th>Start Serial No</th>
+              <th>End Serial No</th>
+              <th>Item Model Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (batchSerialList.length === 0) {
+              <tr>
+                <td colspan="10" class="text-center text-muted py-4">
+                  <strong>No records found.</strong>
+                </td>
+              </tr>
+            } @else {
+              @for (batch of batchSerialList; track batch.contractNo) {
+                <tr>
+                  <td class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-sm btn-outline-success" title="View">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary" title="Edit">
+                      <i class="fa fa-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" title="Delete">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                  <td>{{ batch.contractNo }}</td>
+                  <td>{{ batch.batchQty }}</td>
+                  <td>{{ batch.orderQty }}</td>
+                  <td>{{ batch.deliverQty }}</td>
+                  <td>
+                    <span class="badge bg-info text-dark">{{ batch.status }}</span>
+                  </td>
+                  <td>{{ batch.serialPrefix }}</td>
+                  <td>{{ batch.startSNo }}</td>
+                  <td>{{ batch.endSNo }}</td>
+                  <td>{{ batch.item_ModelCode }}</td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

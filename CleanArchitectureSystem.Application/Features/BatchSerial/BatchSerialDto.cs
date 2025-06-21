@@ -2,6 +2,7 @@
 {
     public class BatchSerialDto
     {
+        public int Id { get; set; }
         public string ContractNo { get; set; } = string.Empty;
         public string DocNo { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
