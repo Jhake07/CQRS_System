@@ -1,6 +1,7 @@
 ﻿using CleanArchitectureSystem.Application.Exceptions;
 using CleanArchitectureSystem.Application.Features.BatchSerial;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.CreateBatchSerials;
+using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.DeleteBatchSerials;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.UpdateBatchSerials;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Queries.GetAll;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Queries.GetByContractNo;
@@ -38,8 +39,8 @@ namespace CleanArchitectureSystem.WebApi.Controllers
         }
 
         // GET api/<BatchSerialController>/5        
-        [HttpGet("/api/BatchSerial/{contractno}")]
-        public async Task<BatchSerialDto> Get(string contractNo)
+        [HttpGet("contract/{contractNo}")]
+        public async Task<BatchSerialDto> GetByContractNo([FromRoute] string contractNo)
         {
             var batchserials = await _mediator.Send(new GetBatchSerialByContractNoQuery(contractNo));
 
@@ -52,7 +53,7 @@ namespace CleanArchitectureSystem.WebApi.Controllers
         {
             if (createBatchSerial == null)
             {
-                _logger.LogWarning("Received null CreateBatchSerialCommand.");
+                _logger.LogWarning("Received null details for Batch Serial Creation.");
                 return BadRequest("Request body cannot be null.");
             }
 
@@ -107,23 +108,25 @@ namespace CleanArchitectureSystem.WebApi.Controllers
 
             try
             {
-                // Ensure the ID in the route matches the ID in the request
-                if (updateBatchSerial.Id != id)
                 {
-                    _logger.LogWarning("Mismatch between route ID ({Id}) and request ID ({RequestId}).", id, updateBatchSerial.Id);
-                    return BadRequest("Route ID and body ID must match.");
+                    // Ensure the ID in the route matches the ID in the request
+                    if (updateBatchSerial.Id != id)
+                    {
+                        _logger.LogWarning("Mismatch between route ID ({Id}) and request ID ({RequestId}).", id, updateBatchSerial.Id);
+                        return BadRequest("Route ID and body ID must match.");
+                    }
+
+                    // Send the command to the mediator
+                    var response = await _mediator.Send(updateBatchSerial);
+
+                    if (response == null || string.IsNullOrEmpty(response.Id))
+                    {
+                        _logger.LogWarning("Failed to update Batch Contract details. No valid data was returned.");
+                        return BadRequest(response);
+                    }
+
+                    return Ok(response);
                 }
-
-                // Send the command to the mediator
-                var response = await _mediator.Send(updateBatchSerial);
-
-                if (response == null || string.IsNullOrEmpty(response.Id))
-                {
-                    _logger.LogWarning("Failed to update Batch Contract details. No valid data was returned.");
-                    return BadRequest(response);
-                }
-
-                return Ok(response);
             }
             catch (BadRequestException ex)
             {
@@ -151,8 +154,37 @@ namespace CleanArchitectureSystem.WebApi.Controllers
 
         // DELETE api/<BatchSerialController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (id <= 0)
+            {
+                _logger.LogWarning("Invalid batch serial ID received: {Id}", id);
+                return BadRequest("Invalid Batch Serial ID.");
+            }
+
+            try
+            {
+                var response = await _mediator.Send(new DeleteBatchSerialsCommand { Id = id });
+
+                if (response == null || string.IsNullOrEmpty(response.Id))
+                {
+                    _logger.LogWarning("Failed to update Batch Contract details. No valid data was returned.");
+                    return BadRequest(response);
+                }
+
+                _logger.LogInformation("Batch serial {Id} cancelled successfully.", id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during batch serial cancellation: {Id}", id);
+
+                return StatusCode(500, new
+                {
+                    Message = "An internal server error occurred.",
+                    Details = ex.Message
+                });
+            }
         }
     }
 }

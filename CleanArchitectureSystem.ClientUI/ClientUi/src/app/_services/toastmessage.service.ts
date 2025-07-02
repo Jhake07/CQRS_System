@@ -6,7 +6,7 @@ import { CustomResultResponse } from '../_models/customResultResponse';
   providedIn: 'root',
 })
 export class ToastmessageService {
-  constructor(private toastr: ToastrService) {} // ✅ fixed injection
+  constructor(private toastr: ToastrService) {}
 
   success(message: string, title = 'Successful') {
     this.toastr.success(message, title);

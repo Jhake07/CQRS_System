@@ -66,12 +66,12 @@ namespace CleanArchitectureSystem.Application.Features.BatchSerial.Commands.Upda
                     {
                         await _batchSerialRepository.UpdateAsync(batchSerial);
                         await _mainSerialRepository.UpdateContractNoAsync(batchSerial.ContractNo, request.ContractNo);
-                        await transaction.CommitAsync();
+                        await transaction.CommitAsync(cancellationToken);
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Transaction failed. Rolling back changes.");
-                        await transaction.RollbackAsync();
+                        await transaction.RollbackAsync(cancellationToken);
                         throw;
                     }
 
@@ -87,7 +87,8 @@ namespace CleanArchitectureSystem.Application.Features.BatchSerial.Commands.Upda
 
                 // Validate data
                 var validationResult = await new UpdateBatchSerialCommandValidator(_batchSerialRepository)
-                        .ValidateAsync(request, cancellationToken);
+                      .ValidateAsync(request, cancellationToken);
+
 
                 if (validationResult.Errors.Count != 0)
                 {
@@ -109,12 +110,12 @@ namespace CleanArchitectureSystem.Application.Features.BatchSerial.Commands.Upda
                     await _batchSerialRepository.UpdateAsync(batchSerial);
                     await _mainSerialRepository.UpdateContractNoAsync(oldContractNo, batchSerial.ContractNo);
 
-                    await updateTransaction.CommitAsync();
+                    await updateTransaction.CommitAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Transaction failed. Rolling back changes.");
-                    await updateTransaction.RollbackAsync();
+                    await updateTransaction.RollbackAsync(cancellationToken);
                     throw;
                 }
 

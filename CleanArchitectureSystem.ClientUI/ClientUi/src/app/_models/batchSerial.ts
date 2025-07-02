@@ -1,4 +1,5 @@
 export interface BatchSerial {
+  id: number;
   contractNo: string;
   customer: string;
   address: string;
