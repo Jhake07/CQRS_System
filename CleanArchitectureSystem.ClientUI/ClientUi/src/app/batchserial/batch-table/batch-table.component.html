@@ -12,9 +12,9 @@
                 </i>
             </th>
 
-            <th>Customer</th>
-            <th>Address</th>
-            <th>Document #</th>
+            <th class="d-none d-sm-table-cell">Customer</th>
+            <th class="d-none d-md-table-cell">Address</th>
+            <th class="d-none d-lg-table-cell">Document #</th>
             <th>Serial Prefix</th>
             <th>Qty</th>
             <th appSortableHeader [column]="'status'" [direction]="sortColumn === 'status' ? sortDirection : ''"
@@ -38,9 +38,9 @@
         @for (batch of batchList; track batch.contractNo) {
         <tr>
             <td>{{ batch.contractNo }}</td>
-            <td>{{ batch.customer }}</td>
-            <td>{{ batch.address }}</td>
-            <td>{{ batch.docNo }}</td>
+            <td class="d-none d-sm-table-cell">{{ batch.customer }}</td>
+            <td class="d-none d-md-table-cell">{{ batch.address }}</td>
+            <td class="d-none d-lg-table-cell">{{ batch.docNo }}</td>
             <td>{{ batch.serialPrefix }}</td>
             <td>{{ batch.batchQty }}</td>
             <td>

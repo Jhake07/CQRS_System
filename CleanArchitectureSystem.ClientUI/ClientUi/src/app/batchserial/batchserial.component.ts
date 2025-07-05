@@ -19,6 +19,7 @@ import { Status } from '../_enums/status.enum';
 
 import { SharedFormsModule } from '../shared/shared-forms/shared-forms.module';
 import { SharedTablesModule } from '../shared/shared-tables/shared-tables.module';
+import { signal, computed } from '@angular/core';
 
 @Component({
   selector: 'app-batchserial',
@@ -41,18 +42,18 @@ export class BatchserialComponent implements OnInit {
   statusOptions: string[] = Object.values(Status);
 
   batchSerialForm!: FormGroup;
-  batchSerialList: BatchSerial[] = [];
+  batchSerialList = signal<BatchSerial[]>([]);
   selectedBatchSerial: BatchSerial | null = null;
 
   formMode: FormMode = FormMode.None;
   isSaving = false;
   showValidationAlert = false;
 
-  pageSize = 5;
-  currentPage = 1;
-
-  sortColumn: string = '';
-  sortDirection: '' | 'asc' | 'desc' = '';
+  pageSize = signal<number>(5);
+  currentPage = signal(1);
+  sortColumn = signal('');
+  sortDirection = signal<'' | 'asc' | 'desc'>('');
+  searchBox = signal('');
 
   readonly editableFields: string[] = [
     'contractNo',
@@ -76,7 +77,7 @@ export class BatchserialComponent implements OnInit {
   private loadBatchSerials(): void {
     this.batchService.getAll().subscribe({
       next: (data) => {
-        this.batchSerialList = data;
+        this.batchSerialList.set(data); // set the signal value
       },
       error: (error) => {
         const msg =
@@ -151,13 +152,19 @@ export class BatchserialComponent implements OnInit {
           );
 
           if (this.formMode === FormMode.Edit) {
-            const index = this.batchSerialList.findIndex(
-              (x) => x.contractNo === this.selectedBatchSerial?.contractNo
+            // Update signal value immutably
+            const updatedList = this.batchSerialList().map((item) =>
+              item.contractNo === this.selectedBatchSerial?.contractNo
+                ? this.batchSerialForm.value
+                : item
             );
-            if (index !== -1)
-              this.batchSerialList[index] = this.batchSerialForm.value;
+            this.batchSerialList.set(updatedList);
           } else {
-            this.batchSerialList.push(this.batchSerialForm.value);
+            // Add new item to signal
+            this.batchSerialList.update((list) => [
+              ...list,
+              this.batchSerialForm.value,
+            ]);
           }
 
           this.resetForm();
@@ -268,20 +275,33 @@ export class BatchserialComponent implements OnInit {
   }
 
   handleSort(event: { column: string; direction: '' | 'asc' | 'desc' }): void {
-    this.sortColumn = event.column;
-    this.sortDirection = event.direction;
+    this.sortColumn.set(event.column); //updates the signal value
+    this.sortDirection.set(event.direction); //updates the signal value
   }
 
-  get paginatedBatchList(): BatchSerial[] {
-    let sorted = [...this.batchSerialList];
+  paginatedBatchList = computed(() => {
+    const search = this.searchBox().toLowerCase().trim();
+    const page = this.currentPage();
+    const size = this.pageSize();
 
-    if (this.sortColumn && this.sortDirection) {
-      sorted.sort((a, b) => {
-        const valA = a[this.sortColumn as keyof BatchSerial];
-        const valB = b[this.sortColumn as keyof BatchSerial];
+    let filtered = this.batchSerialList().filter((item) => {
+      return (
+        item.contractNo?.toLowerCase().includes(search) ||
+        item.customer?.toLowerCase().includes(search) ||
+        item.address?.toLowerCase().includes(search) ||
+        item.docNo?.toLowerCase().includes(search) ||
+        item.item_ModelCode?.toLowerCase().includes(search) ||
+        item.status?.toLowerCase().includes(search) ||
+        item.batchQty?.toString().includes(search)
+      );
+    });
 
+    if (this.sortColumn() && this.sortDirection()) {
+      filtered.sort((a, b) => {
+        const valA = a[this.sortColumn() as keyof BatchSerial];
+        const valB = b[this.sortColumn() as keyof BatchSerial];
         if (valA == null || valB == null) return 0;
-        return this.sortDirection === 'asc'
+        return this.sortDirection() === 'asc'
           ? valA > valB
             ? 1
             : -1
@@ -291,10 +311,10 @@ export class BatchserialComponent implements OnInit {
       });
     }
 
-    return this.paginator.getPaginated(sorted, this.pageSize, this.currentPage);
-  }
+    return this.paginator.getPaginated(filtered, size, page);
+  });
 
-  get totalPages(): number {
-    return this.paginator.getTotalPages(this.batchSerialList, this.pageSize);
-  }
+  totalPages = computed(() =>
+    this.paginator.getTotalPages(this.batchSerialList(), this.pageSize())
+  );
 }

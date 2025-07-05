@@ -26,6 +26,11 @@ namespace CleanArchitectureSystem.Identity
                 .AddEntityFrameworkStores<CleanArchIdentityDbContext>
                 ().AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            });
+
             services.AddTransient<IAppAuthServiceRepository, AppAuthService>();
             services.AddTransient<IAppUserServiceRepository, AppUserService>();
 

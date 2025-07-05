@@ -23,15 +23,15 @@ namespace CleanArchitectureSystem.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegistrationResponse>> Register(RegistrationRequest request)
+        public async Task<ActionResult<RegistrationResponse>> Register(RegistrationRequest request, CancellationToken cancellationToken)
         {
-            return Ok(await _appAuthServiceRepository.Register(request));
+            return Ok(await _appAuthServiceRepository.Register(request, cancellationToken));
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<RegistrationResponse>> UpdateAccount(string email, UpdateRequest request)
+        public async Task<ActionResult<CustomResultResponse>> UpdateAccount(string username, string email, UpdateRequest request, CancellationToken cancellationToke)
         {
-            return Ok(await _appAuthServiceRepository.UpdateUserAccount(request));
+            return Ok(await _appAuthServiceRepository.UpdateUserAccount(username, email, request));
         }
     }
 }
