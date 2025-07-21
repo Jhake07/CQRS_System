@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CustomResultResponse } from '../_models/customResultResponse';
+import { CustomResultResponse } from '../_models/shared/customResultResponse';
 
 @Injectable({
   providedIn: 'root',

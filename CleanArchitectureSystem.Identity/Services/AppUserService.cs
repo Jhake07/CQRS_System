@@ -1,5 +1,5 @@
 ﻿using CleanArchitectureSystem.Application.Contracts.Identity;
-using CleanArchitectureSystem.Application.Models.Identity;
+using CleanArchitectureSystem.Application.DTO;
 using CleanArchitectureSystem.Identity.EntityModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,28 +19,44 @@ namespace CleanArchitectureSystem.Identity.Services
 
         public string UserId { get => _contextAccessor.HttpContext?.User?.FindFirstValue("uid"); }
 
-        public async Task<User> GetUser(string userId)
+        public async Task<AppUserDto> GetUser(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            return new User
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Firstname = user.FirstName,
-                Lastname = user.LastName
-            };
+            if (user == null) return null;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return MapToAppUserDto(user, roles);
+
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<List<AppUserDto>> GetUsers()
         {
-            var employees = await _userManager.GetUsersInRoleAsync("User");
-            return employees.Select(q => new User
+            var users = _userManager.Users.ToList();
+
+            var userDtoList = new List<AppUserDto>();
+
+            foreach (var user in users)
             {
-                Id = q.Id,
-                Email = q.Email,
-                Firstname = q.FirstName,
-                Lastname = q.LastName
-            }).ToList();
+                var roles = await _userManager.GetRolesAsync(user);
+                userDtoList.Add(MapToAppUserDto(user, roles));
+            }
+
+            return userDtoList;
+
+        }
+        private static AppUserDto MapToAppUserDto(AppUser user, IList<string> roles)
+        {
+            return new AppUserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                IsActive = user.IsActive,
+                CreatedDate = user.CreatedDate,
+                Username = user.UserName,
+                Role = roles?.FirstOrDefault() ?? string.Empty
+            };
         }
 
     }

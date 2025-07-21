@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { BatchSerial } from '../../_models/batchSerial';
+import { BatchSerial } from '../../_models/batchserial/batchSerial';
 import { StatusClassPipe } from '../../_pipes/status-class.pipe';
 import { NoResultsComponent } from '../../shared/no-results/no-results.component';
 import { SortableHeaderDirective } from '../../_directives/sortable-header.directive';

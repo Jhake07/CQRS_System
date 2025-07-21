@@ -1,4 +1,4 @@
-import { User } from './user';
+import { ViewUserRequest } from '../appuser/viewUserRequest';
 
 export interface AuthResponse {
   id: string;
@@ -7,5 +7,5 @@ export interface AuthResponse {
   token: string;
   isSuccess: boolean;
   message: string;
-  userDetails: User; // Add this property to store user details
+  userDetails: ViewUserRequest; // Add this property to store user details
 }

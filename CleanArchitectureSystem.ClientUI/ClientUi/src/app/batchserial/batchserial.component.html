@@ -2,7 +2,7 @@
   <!-- Form Card -->
   <div class="card shadow-sm border-0">
     <div class="card-header bg-light fw-semibold">
-      <i class="fa fa-plus-circle me-2"></i>Batch Serial Entry
+      <i class="fa fa-plus-circle me-2"></i>Create New Batch Serial
     </div>
     <div class="card-body">
       @if (showValidationAlert && batchSerialForm.invalid) {
@@ -111,43 +111,43 @@
   </div>
 
   <!-- Table Card -->
-<div class="card mt-4 shadow-sm border-0">
-  <div class="card-header bg-light fw-semibold px-3 py-3">
-    <div class="row align-items-center">
-      <div class="col">
-        <i class="fa fa-table me-2"></i>Existing Records
+  <div class="card mt-4 shadow-sm border-0">
+      <div class="card-header bg-light fw-semibold px-3 py-3">
+        <div class="row align-items-center">
+          <div class="col">
+            <i class="fa fa-table me-2"></i>Existing Records
+          </div>
+          <div class="col-auto">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              style="width: 250px;"
+              [value]="searchBox()"
+              (input)="searchBox.set($any($event.target).value)"
+              placeholder="Search here"
+            />
+          </div>
+        </div>
       </div>
-      <div class="col-auto">
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          style="width: 250px;"
-          [value]="searchBox()"
-          (input)="searchBox.set($any($event.target).value)"
-          placeholder="Search here"
-        />
+
+      <div class="card-body px-3 py-4">
+        <div class="table-responsive">
+          <app-batch-table
+            [batchList]="paginatedBatchList()"
+            (sort)="handleSort($event)"
+            (edit)="populateFormEdit($event)"
+            (view)="populateFormView($event)"
+            (cancel)="cancelBatchSerial($event)"
+          ></app-batch-table>
+        </div>
+
+        <app-paginator
+          [currentPage]="currentPage()"
+          [totalPages]="totalPages()"
+          [pageSize]="pageSize()"
+          (pageSizeChange)="pageSize.set($event)"
+          (pageChange)="currentPage.set($event)"
+        ></app-paginator>
       </div>
-    </div>
   </div>
-
-  <div class="card-body px-3 py-4">
-    <div class="table-responsive">
-      <app-batch-table
-        [batchList]="paginatedBatchList()"
-        (sort)="handleSort($event)"
-        (edit)="populateFormEdit($event)"
-        (view)="populateFormView($event)"
-        (cancel)="cancelBatchSerial($event)"
-      ></app-batch-table>
-    </div>
-
-    <app-paginator
-      [currentPage]="currentPage()"
-      [totalPages]="totalPages()"
-      [pageSize]="pageSize()"
-      (pageSizeChange)="pageSize.set($event)"
-      (pageChange)="currentPage.set($event)"
-    ></app-paginator>
-  </div>
-</div>
 </div>

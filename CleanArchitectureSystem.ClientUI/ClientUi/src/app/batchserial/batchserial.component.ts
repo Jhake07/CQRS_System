@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { of, timer } from 'rxjs';
 import { switchMap, tap, finalize } from 'rxjs/operators';
 
-import { BatchSerialFormFactory } from '../_formfactories/batch-serial-form.service';
+import { BatchSerialFormFactory } from '../_formfactories/batch-serial-form.factory';
 import { BatchSerialService } from '../_services/batch-serial.service';
 import { ConfirmService } from '../_services/confirm.service';
 import { ToastmessageService } from '../_services/toastmessage.service';
@@ -12,8 +12,8 @@ import { FormAccessService } from '../_services/form-access.service';
 import { FormUtilsService } from '../_services/form-utils.service';
 import { PaginatorService } from '../_services/paginator.service';
 
-import { BatchSerial } from '../_models/batchSerial';
-import { CustomResultResponse } from '../_models/customResultResponse';
+import { BatchSerial } from '../_models/batchserial/batchSerial';
+import { CustomResultResponse } from '../_models/shared/customResultResponse';
 import { FormMode } from '../_enums/form-mode.enum';
 import { Status } from '../_enums/status.enum';
 

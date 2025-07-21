@@ -1,5 +1,5 @@
-﻿using CleanArchitectureSystem.Application.Exceptions;
-using CleanArchitectureSystem.Application.Features.BatchSerial;
+﻿using CleanArchitectureSystem.Application.DTO;
+using CleanArchitectureSystem.Application.Exceptions;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.CreateBatchSerials;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.DeleteBatchSerials;
 using CleanArchitectureSystem.Application.Features.BatchSerial.Commands.UpdateBatchSerials;

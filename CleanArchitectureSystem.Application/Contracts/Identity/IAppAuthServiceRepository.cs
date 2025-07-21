@@ -7,6 +7,8 @@ namespace CleanArchitectureSystem.Application.Contracts.Identity
     {
         Task<AuthResponse> Login(AuthRequest request);
         Task<IdentityResultResponse> Register(RegistrationRequest request, CancellationToken cancellationToken);
-        Task<CustomResultResponse> UpdateUserAccount(string username, string email, UpdateRequest request);
+        Task<CustomResultResponse> UpdateUserStatus(UpdateUserStatusRequest request);
+        Task<CustomResultResponse> UpdateUserCredentials(UpdateUserCredentialsRequest request);
+        Task<CustomResultResponse> ResetUserCredentials(ResetPasswordRequest request);
     }
 }

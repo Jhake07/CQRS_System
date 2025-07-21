@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureSystem.Application.Features.BatchSerial
+﻿namespace CleanArchitectureSystem.Application.DTO
 {
     public class BatchSerialDto
     {

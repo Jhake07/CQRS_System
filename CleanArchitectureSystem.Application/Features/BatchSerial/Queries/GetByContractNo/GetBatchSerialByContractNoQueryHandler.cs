@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitectureSystem.Application.Contracts.Interface;
+using CleanArchitectureSystem.Application.DTO;
 using CleanArchitectureSystem.Application.Exceptions;
 using MediatR;
 
