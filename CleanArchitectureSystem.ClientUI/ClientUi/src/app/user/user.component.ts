@@ -11,7 +11,7 @@ import { UserFormFactory } from '../_formfactories/user-form.factory';
 import { FormAccessService } from '../_services/form-access.service';
 import { FormUtilsService } from '../_services/form-utils.service';
 import { ConfirmService } from '../_services/confirm.service';
-import { finalize, of, switchMap, take, tap, timer } from 'rxjs';
+import { finalize, of, switchMap, tap, timer } from 'rxjs';
 import { CustomResultResponse } from '../_models/shared/customResultResponse';
 import { UpdateUserRequest } from '../_models/appuser/updateUserRequest';
 import { ViewUserRequest } from '../_models/appuser/viewUserRequest';

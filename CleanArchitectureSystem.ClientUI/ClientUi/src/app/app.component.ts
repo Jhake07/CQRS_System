@@ -1,41 +1,41 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { RouterOutlet, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { AccountService } from './_services/account.service';
-import { NavComponent } from './nav/nav.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'ClientUi';
-  private http = inject(HttpClient);
-  accountService = inject(AccountService);
-  batchSerial = signal<any>(null);
-  isUserLogged = signal<boolean>(false); // Use signals for reactive state management
+  private router = inject(Router);
+  public accountService = inject(AccountService); // public for template access
+
+  isUserLogged = computed(() => this.accountService.currentUser() !== null);
+  showSessionWarning = computed(() => this.accountService.sessionWarning$()); //  watch for modal
 
   ngOnInit(): void {
-    console.log('app component init');
+    const user = this.accountService.getStoredUser();
+
+    if (user) {
+      this.accountService.setCurrentUser(user);
+      this.router.navigate(['/batchserial']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
-  getBatchSerial() {
-    this.http.get('https://localhost:7290/api/batchserial').subscribe({
-      next: (response) => this.batchSerial.set(response),
-      error: (error) => console.log(error),
-      complete: () => console.log('Request Completed'),
-    });
+  onExtendSession(): void {
+    this.accountService.extendSession(); // 🕒 user chooses to stay logged in
+  }
 
-    // Persist login state using the stored user object
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.accountService.setCurrentUser(JSON.parse(storedUser));
-      this.isUserLogged.set(true);
-    } else {
-      this.isUserLogged.set(false);
-    }
+  onForceLogout(): void {
+    this.accountService.logout();
+    this.router.navigate(['/login']);
   }
 }
